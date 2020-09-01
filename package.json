@@ -1,11 +1,8 @@
 {
-  "name": "react",
+  "name": "react-antd-quill-dynamic-fieldset",
   "version": "1.0.0",
-  "description": "React example starter project",
-  "keywords": [
-    "react",
-    "starter"
-  ],
+  "description": "",
+  "keywords": [],
   "main": "src/index.js",
   "dependencies": {
     "@ant-design/icons": "4.2.2",
