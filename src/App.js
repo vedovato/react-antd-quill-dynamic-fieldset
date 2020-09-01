@@ -15,53 +15,51 @@ const DATA = [
 ];
 
 const DynamicFieldSet = () => {
-  const [formData, setFormData] = useState([]);
+  const [questions, setQuestions] = useState([]);
 
   const onFinish = ({ questions }) => {
     console.info("Values:", questions);
   };
 
   useEffect(() => {
-    const data = DATA.reduce((acc, item) => {
-      acc.push(item.question);
-      return acc;
-    }, []);
-
-    setFormData(data);
+    const data = DATA.reduce((acc, i) => [...acc, i.question], []);
+    setQuestions(data);
   }, []);
 
-  return formData.length ? (
-    <Form
-      onFinish={onFinish}
-      initialValues={{ questions: formData }}
-      style={{ padding: 40 }}
-    >
-      <Form.List name="questions">
-        {(fields, { add, remove }) => (
-          <>
-            {fields.map((field) => (
-              <Form.Item key={field.key}>
-                <Space direction="horizontal">
-                  <Form.Item {...field} children={<ReactQuill />} />
-                  <MinusCircleOutlined onClick={() => remove(field.name)} />
-                </Space>
+  return (
+    questions.length && (
+      <Form
+        onFinish={onFinish}
+        initialValues={{ questions }}
+        style={{ padding: 40 }}
+      >
+        <Form.List name="questions">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map((field) => (
+                <Form.Item key={field.key}>
+                  <Space direction="horizontal">
+                    <Form.Item {...field} children={<ReactQuill />} />
+                    <MinusCircleOutlined onClick={() => remove(field.name)} />
+                  </Space>
+                </Form.Item>
+              ))}
+
+              <Form.Item>
+                <Button onClick={() => add(null)} icon={<PlusOutlined />} />
               </Form.Item>
-            ))}
+            </>
+          )}
+        </Form.List>
 
-            <Form.Item>
-              <Button onClick={() => add(null)} icon={<PlusOutlined />} />
-            </Form.Item>
-          </>
-        )}
-      </Form.List>
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  ) : null;
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    )
+  );
 };
 
 export default DynamicFieldSet;
